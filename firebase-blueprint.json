@@ -1,0 +1,66 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "User Profile",
+      "description": "Stores user profile information like username, bio, and avatar.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Unique user ID from Firebase Auth" },
+        "displayName": { "type": "string", "description": "User's chosen display name" },
+        "username": { "type": "string", "description": "Unique username for searching" },
+        "bio": { "type": "string", "description": "Short user biography" },
+        "gender": { "type": "string", "description": "User's gender", "enum": ["male", "female", "other", ""] },
+        "country": { "type": "string", "description": "User's country" },
+        "photoURL": { "type": "string", "description": "URL to user's profile picture" },
+        "isPremium": { "type": "boolean", "description": "Whether the user has a premium subscription" },
+        "premiumUntil": { "type": "string", "format": "date-time", "description": "When the premium subscription expires" },
+        "role": { "type": "string", "description": "User role (user, admin)", "default": "user" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "When the profile was created" }
+      },
+      "required": ["uid", "displayName"]
+    },
+    "FriendRequest": {
+      "title": "Friend Request",
+      "description": "A request to connect with another user.",
+      "type": "object",
+      "properties": {
+        "fromId": { "type": "string" },
+        "fromName": { "type": "string" },
+        "toId": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "accepted", "rejected"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["fromId", "toId", "status"]
+    },
+    "PaymentRequest": {
+      "title": "Payment Request",
+      "description": "A manual payment request for 1 Month Premium.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "userEmail": { "type": "string" },
+        "plan": { "type": "string", "default": "1 Month Premium" },
+        "amount": { "type": "number" },
+        "utr": { "type": "string" },
+        "screenshotURL": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "amount", "utr", "status"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "Collection of user profiles"
+    },
+    "/payments/{paymentId}": {
+      "schema": "PaymentRequest",
+      "description": "Collection of manual payment requests"
+    },
+    "/friendRequests/{requestId}": {
+      "schema": "FriendRequest",
+      "description": "Collection of friend requests"
+    }
+  }
+}

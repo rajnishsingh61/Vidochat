@@ -1,0 +1,9 @@
+{
+  "name": "vidochat",
+  "description": "A real-time video chat and messaging platform for connecting with people globally.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "geolocation"
+  ]
+}
